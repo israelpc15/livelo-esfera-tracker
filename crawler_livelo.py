@@ -1,13 +1,15 @@
 # analisar pagina da livelo para ganho de pontos através de compras
-
 from decimal import Decimal
 from json import JSONDecodeError
 from xmlrpc.client import ResponseError
 from datetime import date
 import requests
+import logging
 import re
 from bs4 import BeautifulSoup
 import json
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 def validate_api_info(responseJSON) -> bool:
     error = []
@@ -25,21 +27,22 @@ def validate_api_info(responseJSON) -> bool:
 
     return
 
-def get_campaigns(partners):
-    url_base = "https://apis.pontoslivelo.com.br/partners-campaign/v1/campaigns/active"
-    
-    params = {'partnersCodes':partners}
+def get_campaigns(partners: str) -> list:
+    url_base = "https://apis.pontoslivelo.com.br/api-bff-partners-parities/v1/parities/active"
+    params = {'partnersCodes': partners}
     try:
         response = requests.get(url_base, params=params)
         text = response.text
         list_data = response.json()
-        
     except JSONDecodeError:
         print("JSON text error: ' "+str(text)+" '")
         exit()
     except ResponseError:
         print("URL error: "+url_base)
         exit()
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Erro na requisição para {url_base}: {e}")
+        raise
     
     try:
         validate_api_info(list_data)
@@ -147,12 +150,12 @@ def is_valid_legal_terms(legalTerms : str, points_desired : Decimal, max_amount 
         return True
     
     # normalyzing text to additional validations
-    legalTerms = legalTerms.replace(". ",".").replace("1:1", "1 ponto por real").replace (":1", " pontos por real")
+    legalTerms = legalTerms.replace(". ",".").replace("1:1", "1 ponto a cada real").replace("1:1", "1 ponto por real").replace (":1", " pontos por real")
     
     legal_terms_sentences = legalTerms.split(".")
     for sentence in legal_terms_sentences:
         # check existance of specific text in term
-        if(sentence.find("por real") == -1):
+        if(sentence.find("por real") == -1 or sentence.find("a cada real") == -1):
             continue
         
         # if has ',' on sentence, is identified as subsentence or terms
@@ -175,13 +178,15 @@ def check_desiredstores_promotions(desired_stores_config : dict, stores_info : l
         max_amount = 99999
         if('max_amount' in config):
             max_amount = Decimal(config['max_amount'])
+
         legal_terms = ""
         if(store_dict['legalTerms'] is not None):
             legal_terms = store_dict['legalTerms']
+
         categories = []
         if('categories' in config):
             categories = config['categories']
-        print("Observing "+str(config['name']))
+        print("Observing "+str(config['name']) + " - "+str(parity_club)+" - "+str(min_parity))
         if parity_club >= min_parity and is_valid_legal_terms(legal_terms, min_parity, max_amount, categories) and can_send_notification(legal_terms):
             print("Promoção encontrada para "+str(config['name']))
             campaign_url = url_base+str(config['name']).lower().replace(" ","")
@@ -258,19 +263,35 @@ def send_notification(to:list, campaigns : list):
 
 # categories (portuguese) => livros; casa, mesa e banho; eletrodomésticos; eletroportáteis/portáteis; masculino; feminino; brinquedos; telefonia
 # desired stores in relationship program
-file_data = open("database/livelo.json")
-desired_stores = json.load(file_data)
+def main():
+    """
+    Função principal que orquestra a execução do crawler.
+    """
+    logging.info(date.today().strftime("%d/%m/%Y"))
+    # Lê o arquivo de configuração com as lojas desejadas
+    try:
+        with open("database/livelo.json") as file_data:
+            desired_stores = json.load(file_data)
+    except (IOError, JSONDecodeError) as e:
+        logging.error(f"Erro ao abrir ou interpretar o arquivo JSON: {e}")
+        return
+    stores_key_arr = ",".join(desired_stores.keys())
+    
+    try:
+        available_campaigns = get_campaigns(stores_key_arr)
+    except Exception as e:
+        logging.error(f"Erro ao obter campanhas: {e}")
+        return
+    print(available_campaigns)
+    list_found = check_desiredstores_promotions(desired_stores, available_campaigns)
+    count_stores = len(list_found)
+    send_to = []
+    if count_stores == 0:
+        logging.info("Nenhuma promoção encontrada!")
+    else:
+        send_to.append({"email": os.getenv("RECIPIENT_EMAIL", "{ your-email }"), "name": os.getenv("RECIPIENT_NAME", "{ your-name }")})
+        logging.info(f"{count_stores} stores found and an e-mail will be sent")
+        send_notification(send_to, list_found)
 
-today = date.today()
-print(today.strftime("%d/%m/%Y"))
-available_campaigns = get_campaigns(desired_stores)
-list_found = check_desiredstores_promotions(desired_stores, available_campaigns)
-count_stores = len(list_found)
-send_to = []
-if(count_stores == 0):
-    print("Nenhuma promoção encontrada!")
-else:
-    send_to.append({"email":"{ your-email }","name":"{ your-name }"})
-    print(str(count_stores)+" stores found and a e-mail will be sent")
-    send_notification(send_to, list_found)
-
+if __name__ == "__main__":
+    main();
