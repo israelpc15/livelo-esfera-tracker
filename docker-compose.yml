@@ -1,0 +1,24 @@
+version: "3"
+services:
+  web:
+    build: .
+    links:
+      - db:docker_database
+    ports:
+      - "8085:80"
+    volumes:
+      - .:/home/main
+    environment:
+      - ENV_PROJECT=dev
+  db:
+    image: mysql:5.6.27
+    ports:
+      - "9090:3306"
+    volumes:
+      - ./config:/tmp/config
+    environment:
+      - MYSQL_ROOT_PASSWORD=my-secret-pw
+      - MYSQL_DATABASE=lamp
+      - MYSQL_USER=lamp_user
+      - MYSQL_PASSWORD=lamp_pass
+      
