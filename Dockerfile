@@ -21,6 +21,8 @@ RUN pip install --upgrade cython
 RUN pip install --upgrade lxml requests beautifulsoup4 pypika pytest
 # RUN pip install pandas
 
+COPY . .
+
 # instalando as libs específicas
 # ADD docker-imports.txt .
 # RUN pip install -r docker-imports.txt

@@ -1,10 +1,12 @@
 services:
   crawler:
+    tty: true # to execute commands
     build: .
     ports:
-      - "8085:80"
+      - "9000:80"
     volumes:
       - .:/home/main
     environment:
       - ENV_PROJECT=dev
+      - SENDINBLUE_API_KEY=(API_KEY)
       
