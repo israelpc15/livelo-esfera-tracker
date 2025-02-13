@@ -1,4 +1,4 @@
-FROM python:3.9-alpine3.13
+FROM ubuntu:20.04
 
 # atribuindo o caminho da pasta principal em uma constante
 ENV MAIN_DIR=/home/main
@@ -10,13 +10,10 @@ RUN mkdir "${MAIN_DIR}"
 WORKDIR "${MAIN_DIR}"
 
 # instalando as libs genéricas necessárias para as execuções dos jobs
-RUN apk add --no-cache --update \
-    python3 python3-dev gcc \
-    gfortran musl-dev g++ \
-    libffi-dev openssl-dev \
-    libxml2 libxml2-dev \
-    libxslt libxslt-dev \
-    libjpeg-turbo-dev zlib-dev
+RUN apt-get update
+RUN apt-get install -y python3.9 
+RUN apt-get install -y python3.9-dev 
+RUN apt-get install -y pip
 
 # comandos adicionais de upgrade
 RUN pip install --upgrade pip
