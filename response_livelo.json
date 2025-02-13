@@ -1,0 +1,46 @@
+[
+	{
+		"partnerCode": "BOK",
+		"currency": "U$",
+		"currencyValue": 1,
+		"parity": 4,
+		"parityClub": 4,
+		"legalTerms": "Não acumulam Pontos Livelo, a compra de passagem aérea disponível no Hotsite, os valores referentes a taxa de embarque, taxas e impostos, multa por não comparecimento, taxas governamentais e locais; compras realizadas fora do Hotsite, pagamentos com Cupom de Desconto, gift card e Vale-Compra e pedidos realizados por pessoa jurídica. Os Pontos Livelo serão creditados em até 64 (sessenta e quatro) dias corridos contados do check-out, desde que o número do CPF informado seja válido. ",
+		"url": "",
+		"separator": "=",
+		"parityBau": 4,
+		"promotion": false,
+		"separatorSlug": "IGUAL"
+	},
+	{
+		"partnerCode": "CEN",
+		"currency": "R$",
+		"currencyValue": 1,
+		"parity": 2,
+		"parityClub": 2,
+		"legalTerms": "Nãp acumulam pontos Livelo produtos que não são vendidos e nem entregues pela Centauro",
+		
+		"separator": "=",
+		"parityBau": 2,
+		"promotion": false
+	},
+    {
+		"partnerCode": "CSB",
+		"parity": 10,
+		"parityClub": 10,
+		"legalTerms": "<p>Ganhe 10 pontos por real gasto nos produtos selecionados Samsung Galaxy S25 vendidos e entregues por Casas Bahia; 3 pontos por real nos demais itens vendidos e entregues por Casas Bahia e 1 ponto por real para marketplace e gift card mediante pagamento via cartão de crédito, boleto e Pix. Campanha válida de 11 a 13/02/2025. Consulte o regulamento.</p>",
+		"parityBau": 1,
+		"promotion": true
+	},
+	{
+		"partnerCode": "EXT",
+		"currency": "R$",
+		"currencyValue": 1,
+		"parity": 4,
+		"parityClub": 3,
+		"legalTerms": "<p>Ganhe 4 pontos por real gasto exclusivo para assinantes Clube Livelo; 3 pontos por real para para demais clientes nos produtos vendidos e entregues por Extra e 1 ponto por real para marketplace e gift card mediante pagamento via cartão de crédito, boleto e Pix. Campanha válida de 10 a 13/02/2025. Consulte o regulamento.</p>",
+		
+		"parityBau": 1,
+		"promotion": true
+	}
+]
