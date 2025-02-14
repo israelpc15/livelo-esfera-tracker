@@ -36,15 +36,7 @@ Rode o docker-compose
   docker run -it livelo-esfera-tracker-crawler
 ```
 
-
-
-Rode o script (livelo)
+Rode o script
 ```bash
-python3 crawler-livelo.py
-```
-ou 
-
-Rode o script (esfera)
-```bash
-python3 crawler-esfera.py
+python3 -m app.main
 ```
