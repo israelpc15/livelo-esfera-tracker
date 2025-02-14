@@ -5,7 +5,7 @@ services:
     ports:
       - "9000:80"
     volumes:
-      - .:/home/main
+      - ./app:/home/main
     environment:
       - ENV_PROJECT=dev
       - SENDINBLUE_API_KEY=(API_KEY)
