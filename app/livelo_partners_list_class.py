@@ -2,7 +2,7 @@ import json
 from typing import List, Dict, Union, Any, Optional
 from .partnersconfig_class import PartnerConfig
 
-class PartnerConfigList:
+class LiveloPartnersList:
     """
     Class to load and manipulate a list of partner configurations from a JSON file.
     """

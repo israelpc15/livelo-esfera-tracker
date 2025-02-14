@@ -1,7 +1,7 @@
 import datetime
 import pytest
 from app.partnersconfig_class import PartnerConfig
-from app.partnersconfiglist_class import PartnerConfigList
+from app.livelo_partners_list_class import LiveloPartnersList
 from app.watchstore_class import WatchStore
 
 @pytest.fixture
@@ -38,7 +38,7 @@ def sample_configs():
 
 @pytest.fixture
 def config_list(sample_configs):
-    return PartnerConfigList(sample_configs)
+    return LiveloPartnersList(sample_configs)
 
 @pytest.fixture
 def sample_watchstores():
