@@ -1,0 +1,48 @@
+[
+    {
+        "code": "MOV",
+		"name": "Movida",
+		"valid_until": "2022-11-30",
+		"min_points": 8
+    },
+    {
+        "code": "MZL",
+		"name": "Magazine Luiza",
+		"valid_until": "2022-11-30",
+		"min_points": 6,
+		"categories": ["eletroportáteis", "portáteis", "eletrodomésticos", "telas"]
+    },
+    {
+		"code": "CSB",
+		"name": "Casas Bahia",
+		"valid_until": "2022-11-30",
+		"min_points": 6,
+		"categories": ["eletroportáteis", "portáteis", "eletrodomésticos", "telas"]
+	},
+    {
+		"code": "EXT",
+		"name": "Extra",
+		"valid_until": "2022-11-30",
+		"min_points": 6,
+		"categories": ["eletroportateis", "portáteis", "eletrodomésticos", "telas"]
+	},
+    {
+		"code": "AMC",
+		"name": "Americanas",
+		"valid_until": "2022-11-30",
+		"min_points": 6,
+		"categories": ["eletroportáteis", "portáteis", "eletrodomésticos", "telas"]
+	},
+    {
+        "code": "NTS",
+		"name": "Netshoes",
+		"valid_until": "2022-11-30",
+		"min_points": 8
+	},
+    {
+        "code": "CEN",
+		"name": "Centauro",
+		"valid_until": "2022-11-30",
+		"min_points": 8
+	}
+]

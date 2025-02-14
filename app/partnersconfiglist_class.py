@@ -1,5 +1,5 @@
 import json
-from typing import List, Dict, Union, Any
+from typing import List, Dict, Union, Any, Optional
 from .partnersconfig_class import PartnerConfig
 
 class PartnerConfigList:
@@ -62,18 +62,29 @@ class PartnerConfigList:
                 return config
         return None
 
-    def get_promotional_partners(self, desired_points: int) -> List[PartnerConfig]:
+    def get_promotional_partners(self, desired_points: int, watchstores: Optional[List[Any]] = None) -> List[PartnerConfig]:
         """
         Returns a list of partners that are on promotion and offer desired points.
+        
+        If a list of WatchStore objects is provided, only configurations matching a watch store
+        (by comparing the partner code with the watch store's code) are considered.
 
         Args:
             desired_points (int): The minimum desired points.
+            watchstores (Optional[List[Any]]): Optional list of WatchStore objects to filter partners.
 
         Returns:
             List[PartnerConfig]: List of partners on promotion.
         """
         promotional_partners = []
         for config in self.configs:
+            # If a list of watchstores is provided, ensure the partner is present in it
+            if watchstores:
+                # Assume the matching is done by comparing config.partner_code to watchstore.code.
+                # (You may modify this logic to compare watchstore names if needed.)
+                if not any(watch.code == config.partner_code for watch in watchstores):
+                    continue
+
             if config.promotion and config.get_highest_point() >= desired_points:
                 promotional_partners.append(config)
         return promotional_partners
